@@ -50,7 +50,7 @@ particular, el Análisis del Problema y el Diseño de la Solución:
 
 * Hipótesis de trabajo: Los valores ingresados deben ser números reales. Asumo que la cantidad de decimales que se quieren mostrar del resultado son 2.
 
-* Modelo IPO : ![Imagen IPO](https://github.com/gmacedarodriguez/Images/blob/master/Diagrama%20de%20flujo.jpg)
+* Modelo IPO : ![Imagen IPO](https://github.com/gmacedarodriguez/Images/blob/master/Imagen%20IPO.jpg)
 
 ## Etapa 2: Diseño de la Solución
 
