@@ -48,15 +48,19 @@ particular, el Análisis del Problema y el Diseño de la Solución:
 
 * Problema: "Mostrar la adición de dos numeros que ingresa el usuario"
 
-* Hipótesis de trabajo: Los valores ingresados deben ser números reales.
+* Hipótesis de trabajo: Los valores ingresados deben ser números reales. Asumo que la cantidad de decimales que se quieren mostrar del resultado son 2.
 
-* Modelo IPO : ![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
+* Modelo IPO : ![Imagen IPO](https://raw.githubusercontent.com/gmacedarodriguez/Images/master/Imagen%20IPO.jpg?token=APE6QIBOQ6YIZEXTJPWZFCK6URQ4E)
 
 ## Etapa 2: Diseño de la Solución
 
-* Léxico del Algorítmo
+* Léxico del Algorítmo: x ∈ R
 
 - Representación del Algorítmo
-  - Representación visual: ![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
+  - Representación visual: ![Imagen Diagrama de Flujo](https://github.com/gmacedarodriguez/Images/blob/master/Diagrama%20de%20flujo.jpg)
   
-  -Representación textual: 
+  - Representación textual(En Pseudocódigo): 
+    - Leer Numero1
+    - Leer Numero2
+    - Mostrar Numero1+Numero2
+  
