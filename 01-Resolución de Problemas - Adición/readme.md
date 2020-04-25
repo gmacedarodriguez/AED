@@ -52,11 +52,12 @@ particular, el Análisis del Problema y el Diseño de la Solución:
 
 * Modelo IPO : ![Imagen IPO](https://github.com/gmacedarodriguez/Images/blob/master/Imagen%20IPO.jpg)
 
-## Etapa 2: Diseño de la Solución
+### Etapa 2: Diseño de la Solución
 
 * Léxico del Algorítmo: x ∈ R
 
 - Representación del Algorítmo
+
   - Representación visual: ![Imagen Diagrama de Flujo](https://github.com/gmacedarodriguez/Images/blob/master/Diagrama%20de%20flujo.jpg)
   
   - Representación textual(En Pseudocódigo): 
