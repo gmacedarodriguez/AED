@@ -29,5 +29,4 @@ int main()
   std::cout.precision(precisionOriginal);
   std::cout << std::defaultfloat << std::noshowpoint;
 
-  return 0;
 }
