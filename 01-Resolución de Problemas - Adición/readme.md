@@ -54,7 +54,7 @@ particular, el Análisis del Problema y el Diseño de la Solución:
 
 ### Etapa 2: Diseño de la Solución
 
-* Léxico del Algorítmo: x ∈ R
+* Léxico del Algorítmo: [numero1, numero2] ∈ R
 
 - Representación del Algorítmo
 
