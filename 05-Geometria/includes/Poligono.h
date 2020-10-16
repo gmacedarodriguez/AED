@@ -12,8 +12,8 @@ struct Color{
 
 
 struct Punto{
-    int x;
-    int y;
+    double x;
+    double y;
 };
 
 //Supongo que puede tener como máximo 200 puntos
@@ -30,9 +30,15 @@ Punto getVertice(const Poligono& poligono, const int numeroDeVertice);
 void setVertice(Poligono& poligono, const Punto punto, const int posicionVertice);
 void removeVertice(Poligono& poligono, const int numeroDeVertice);
 int getCantidadLados(const Poligono& poligono);
-int getPerimetro(const Poligono& poligono);
-int distanciaEntrePuntos(const Punto unPunto, const Punto otroPunto);
+double getPerimetro(const Poligono& poligono);
+double distanciaEntrePuntos(const Punto unPunto, const Punto otroPunto);
 bool isIgualPunto(const Punto unPunto, const Punto otroPunto);
 bool extraerColor(ifstream& in, Color& color);
-
+bool extraerComponenteColor(ifstream& in, uint8_t& componente);
+bool extraerSeparador(ifstream& in);
+bool extraerPoligonos (ifstream& in);
+bool enviarPoligonos(ofstream& out);
+bool enviarPoligono (ofstream& out,const Poligono& poligono);
+bool enviarColor (ofstream& out,const Color& color);
+bool enviarPunto (ofstream& out,const Punto& punto);
 

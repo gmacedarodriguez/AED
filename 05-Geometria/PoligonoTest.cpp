@@ -36,9 +36,17 @@ int main(){
 
     ifstream infile; 
 
-    infile.open("afile.txt");
+    infile.open("readFile.txt");
 
-    extraerColor(infile, poligono.colorPoligono);
+    assert(true == extraerPoligonos(infile));
 
-     infile.close();
+    infile.close();
+
+    ofstream outfile;
+    outfile.open("writeFile.txt");
+
+    assert(true == enviarPoligonos(outfile));
+
+    outfile.close();
+
 }

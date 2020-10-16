@@ -7,6 +7,9 @@
 #include <iomanip>
 using namespace std;
 #include <fstream>
+#include <map>
+
+map <int, Poligono> myPoligonos;
 
 bool isIgualPunto(const Punto unPunto, const Punto otroPunto){
     return (unPunto.x == otroPunto.x) and (unPunto.y == otroPunto.y);
@@ -35,79 +38,84 @@ void removeVertice(Poligono& poligono, const int numeroDeVertice){ //Supongo que
 int getCantidadLados(const Poligono& poligono){
     return poligono.cantidadPuntosReales;
 }
-int getPerimetro(const Poligono& poligono){
-    int perimetro = 0;
+double getPerimetro(const Poligono& poligono){
+    double perimetro = 0;
     unsigned i; //Porque comparo con un unsigned
     for(i = 0; i < poligono.cantidadPuntosReales-1; i++)
         perimetro += distanciaEntrePuntos(poligono.puntos[i], poligono.puntos[i+1]);
-    perimetro += distanciaEntrePuntos(poligono.puntos[i], poligono.puntos[0]);
-    return perimetro;
+    return perimetro += distanciaEntrePuntos(poligono.puntos[i], poligono.puntos[0]);
 }
 
-int distanciaEntrePuntos(const Punto unPunto, const Punto otroPunto){
-    int distancia = pow (unPunto.x - otroPunto.x , 2) + pow(unPunto.y - otroPunto.y, 2);
-    return distancia;
+double distanciaEntrePuntos(const Punto unPunto, const Punto otroPunto){
+    return pow (unPunto.x - otroPunto.x , 2) + pow(unPunto.y - otroPunto.y, 2);
 }
 
 // Agregado de la clases del 1/10 - Como extraer un poligono de un archivo txt
 
 //Extraer uno o mas poligonos y despues enviarlos por flujo de salida
 
+bool extraerComponenteColor(ifstream& in, uint8_t& componente){
+    int aux;
+    in >> aux;
+    componente = aux;
+    return static_cast<bool> (in);
+}
 
 
 bool extraerColor(ifstream& in, Color& color){
-    int aux;
-    in >> aux;
-    color.red = aux;
-    cout << static_cast<short>(color.red) << endl;
-    
-    in >> aux;
-    color.green = aux;
-    cout << static_cast<short>(color.green) << endl;
-
-    in >> aux;
-    color.blue = aux;
-    cout << static_cast<short>(color.blue) << endl;
-
-    return in and true;
-
- }
+    return  extraerComponenteColor(in, color.red) and
+            extraerComponenteColor(in, color.green) and
+            extraerComponenteColor(in, color.blue);
+} 
 
  bool extraerPunto (ifstream& in, Punto& punto){
     in >> punto.x;
     in >> punto.y;
-
-    return in and true;
+    return static_cast<bool> (in);
  }
 
-bool extraerPoligono (ifstream& in, Poligono& poligono){
-    extraerColor(in, poligono.colorPoligono);
-    for (int i = 0; extraerPunto(in, poligono.puntos[i]); i++)
-        addVertice(poligono, poligono.puntos[i]);
-
-    return bool (in);
- }
-
-
-
-// bool extraerPuntos(ifstream& in, )
-
-bool enviarPunto (ifstream& in, Punto& punto){
-
- }
-
-bool enviarColor (ifstream& in, Punto& punto){
-     
- }
-
-bool enviarPoligono (ifstream& in, Punto& punto){
-     
- }
-
- bool extraerSeparador(ifstream& in){
+bool extraerSeparador(ifstream& in){
     in.clear();
     char c = '!';
     in >> c;
     return c=='#' and in;
+ } 
 
+bool extraerPoligono (ifstream& in, Poligono& poligono){
+    if(extraerColor(in, poligono.colorPoligono))
+        for (int i = 0; extraerPunto(in, poligono.puntos.at(i)); i++)
+            addVertice(poligono, poligono.puntos.at(i));
+    return extraerSeparador(in);
  }
+bool extraerPoligonos (ifstream& in){
+    for(int i = 0; not in.eof() and extraerPoligono(in, myPoligonos[i]); i++);
+    return in.eof();
+}
+
+// -------------
+
+bool enviarPunto (ofstream& out,const Punto& punto){
+    out << punto.x << " " << punto.y << " ";
+    return static_cast<bool> (out);
+}
+
+bool enviarColor (ofstream& out,const Color& color){
+    out << static_cast<short> (color.red) << " " 
+        << static_cast<short> (color.green) << " "
+        << static_cast<short> (color.blue) << " "; //Sin este casteo me muestra el valor del codigo ascii
+    return static_cast<bool> (out);
+}
+
+bool enviarPoligono (ofstream& out,const Poligono& poligono){
+    enviarColor(out, poligono.colorPoligono);
+    unsigned i;
+    for(i = 0; poligono.cantidadPuntosReales>i and enviarPunto(out, poligono.puntos.at(i)); i++);
+    return poligono.cantidadPuntosReales == i;
+}
+
+bool enviarPoligonos(ofstream& out){
+    unsigned i;
+    for(i = 0; myPoligonos.size()>i and enviarPoligono(out, myPoligonos[i]); i++);
+    return myPoligonos.size() == i;
+}
+
