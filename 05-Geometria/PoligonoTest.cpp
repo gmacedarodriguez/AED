@@ -2,6 +2,7 @@
 #include <cassert> // Incluyo para que no tire error en los assert
 #include <Poligono.h>
 
+using namespace std;
 
 int main(){
 
@@ -31,4 +32,13 @@ int main(){
 
     assert(0 == getPerimetro(poligono));
     assert(not(1 == getPerimetro(poligono)));
+
+
+    ifstream infile; 
+
+    infile.open("afile.txt");
+
+    extraerColor(infile, poligono.colorPoligono);
+
+     infile.close();
 }

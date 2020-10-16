@@ -1,6 +1,8 @@
 #include <stdint.h>
 #include <array>
-
+#include <fstream>
+#include <iostream>
+using namespace std;
 
 struct Color{
     uint8_t red; //elijo unsigned porque los valores de intensidad de un color rgb no pueden ser negativo
@@ -31,5 +33,6 @@ int getCantidadLados(const Poligono& poligono);
 int getPerimetro(const Poligono& poligono);
 int distanciaEntrePuntos(const Punto unPunto, const Punto otroPunto);
 bool isIgualPunto(const Punto unPunto, const Punto otroPunto);
+bool extraerColor(ifstream& in, Color& color);
 
 

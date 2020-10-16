@@ -4,7 +4,7 @@
 
 #
 CC = g++
-CFLAGS  = -g -Wall -I./includes
+CFLAGS  = -g -Wall -I./includes -Wconversion -std=c++17
 
 default: Poligono
 
