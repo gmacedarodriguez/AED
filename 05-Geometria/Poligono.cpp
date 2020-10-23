@@ -3,31 +3,25 @@
 
 #include <Poligono.h>
 #include <cmath>
-#include <iostream>
-#include <iomanip>
-using namespace std;
-#include <fstream>
-#include <map>
 
-map <int, Poligono> myPoligonos;
+// #include <map>
+// map <int, Poligono> myPoligonos;
+
 
 bool isIgualPunto(const Punto unPunto, const Punto otroPunto){
     return (unPunto.x == otroPunto.x) and (unPunto.y == otroPunto.y);
 }
-
-
 
 void addVertice(Poligono& poligono, const Punto puntoAAgregar ){
     poligono.puntos.at(poligono.cantidadPuntosReales) = puntoAAgregar;
     poligono.cantidadPuntosReales++;
 }
 
-Punto getVertice(const Poligono& poligono, const int numeroDeVertice ){ //Si paso poligono por referencia, al no copiarse un nuevo poligono dentro de la funcion, es mas performante? Pongo const ya que no quiero modificar nada dentro de la func
+Punto getVertice(const Poligono& poligono, const int numeroDeVertice ){
     return poligono.puntos.at(numeroDeVertice);
 }
 
-
-void setVertice(Poligono& poligono, const Punto punto, const int posicionVertice){ //setVertice
+void setVertice(Poligono& poligono, const Punto punto, const int posicionVertice){
         poligono.puntos.at(posicionVertice) = punto;   
 }
 
@@ -61,7 +55,6 @@ bool extraerComponenteColor(ifstream& in, uint8_t& componente){
     return static_cast<bool> (in);
 }
 
-
 bool extraerColor(ifstream& in, Color& color){
     return  extraerComponenteColor(in, color.red) and
             extraerComponenteColor(in, color.green) and
@@ -87,7 +80,20 @@ bool extraerPoligono (ifstream& in, Poligono& poligono){
             addVertice(poligono, poligono.puntos.at(i));
     return extraerSeparador(in);
  }
-bool extraerPoligonos (ifstream& in){
+
+// void push (Poligono *poligono, int index, Poligono value, int *size, int *capacity){
+//      cout << "Current capacity: %d\n" << *capacity << endl;
+//      cout << "Current capacity: %d\n" << index << endl;
+//     if(*size > *capacity){
+//           realloc(poligono, sizeof(poligono) * 2);
+//           *capacity = sizeof(poligono) * 2;
+//      }
+//      poligono[index] = value;
+//      *size = *size + 1;
+// }
+
+bool extraerPoligonos (ifstream& in, map <int, Poligono>& myPoligonos){
+
     for(int i = 0; not in.eof() and extraerPoligono(in, myPoligonos[i]); i++);
     return in.eof();
 }
@@ -113,7 +119,7 @@ bool enviarPoligono (ofstream& out,const Poligono& poligono){
     return poligono.cantidadPuntosReales == i;
 }
 
-bool enviarPoligonos(ofstream& out){
+bool enviarPoligonos(ofstream& out, map <int, Poligono>& myPoligonos){
     unsigned i;
     for(i = 0; myPoligonos.size()>i and enviarPoligono(out, myPoligonos[i]); i++);
     return myPoligonos.size() == i;

@@ -1,11 +1,10 @@
 
 #include <cassert> // Incluyo para que no tire error en los assert
 #include <Poligono.h>
-
 using namespace std;
 
 int main(){
-
+    map <int, Poligono> myPoligonos;
     Poligono poligono;
     Punto puntoPrueba = {0 , 0};
 
@@ -33,20 +32,17 @@ int main(){
     assert(0 == getPerimetro(poligono));
     assert(not(1 == getPerimetro(poligono)));
 
+    ifstream infile ("readFile.txt");
 
-    ifstream infile; 
+    assert(true == extraerPoligonos(infile, myPoligonos));
 
-    infile.open("readFile.txt");
-
-    assert(true == extraerPoligonos(infile));
-
+//    cout << "Hola" << endl;
     infile.close();
 
-    ofstream outfile;
-    outfile.open("writeFile.txt");
+    ofstream outfile ("writeFile.txt");
 
-    assert(true == enviarPoligonos(outfile));
-
+    assert(true == enviarPoligonos(outfile, myPoligonos));
+    
     outfile.close();
 
 }

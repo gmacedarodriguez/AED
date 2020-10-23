@@ -2,6 +2,8 @@
 #include <array>
 #include <fstream>
 #include <iostream>
+// #include <vector>
+#include <map>
 using namespace std;
 
 struct Color{
@@ -36,9 +38,10 @@ bool isIgualPunto(const Punto unPunto, const Punto otroPunto);
 bool extraerColor(ifstream& in, Color& color);
 bool extraerComponenteColor(ifstream& in, uint8_t& componente);
 bool extraerSeparador(ifstream& in);
-bool extraerPoligonos (ifstream& in);
-bool enviarPoligonos(ofstream& out);
+bool extraerPoligonos (ifstream& in, map <int, Poligono>& myPoligonos);
+bool enviarPoligonos(ofstream& out, map <int, Poligono>& myPoligonos);
 bool enviarPoligono (ofstream& out,const Poligono& poligono);
 bool enviarColor (ofstream& out,const Color& color);
 bool enviarPunto (ofstream& out,const Punto& punto);
 
+void push (Poligono *poligono, int index, Poligono value, int *size, int *capacity);
