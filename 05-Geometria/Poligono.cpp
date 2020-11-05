@@ -1,6 +1,5 @@
 // Ctrl + K + C to comment
 // Ctrl + K + U to uncomment
-
 #include <Poligono.h>
 #include <cmath>
 
@@ -12,20 +11,43 @@ bool isIgualPunto(const Punto unPunto, const Punto otroPunto){
     return (unPunto.x == otroPunto.x) and (unPunto.y == otroPunto.y);
 }
 
+
+void push (Nodo** cabeza, const Punto puntoNuevo){
+    Nodo * newNodo = new Nodo;
+
+    newNodo->punto.x=puntoNuevo.x;
+    newNodo->punto.y=puntoNuevo.y;
+
+    newNodo->next=*cabeza;
+ 
+    *cabeza=newNodo;
+
+}
+
 void addVertice(Poligono& poligono, const Punto puntoAAgregar ){
-    poligono.puntos.at(poligono.cantidadPuntosReales) = puntoAAgregar;
+    cout<<"ta todo bien"<< endl;
+    push(&poligono.primerNodo, puntoAAgregar);
+
     poligono.cantidadPuntosReales++;
 }
 
-Punto getVertice(const Poligono& poligono, const int numeroDeVertice ){
-    return poligono.puntos.at(numeroDeVertice);
+Punto getVertice(Poligono poligono, const int numeroDeVertice ){
+    for(int i = 0; numeroDeVertice>i; i++)
+        poligono.primerNodo = poligono.primerNodo->next;
+    
+    return poligono.primerNodo->punto;
 }
 
 void setVertice(Poligono& poligono, const Punto punto, const int posicionVertice){
-        poligono.puntos.at(posicionVertice) = punto;   
+    for(int i = 0; posicionVertice>i; i++)
+        poligono.primerNodo = poligono.primerNodo->next;
+    poligono.primerNodo->punto=punto;   
 }
 
 void removeVertice(Poligono& poligono, const int numeroDeVertice){ //Supongo que siempre quiero remover el ultimo
+    for(int i = 0; numeroDeVertice>i; i++)
+        poligono.primerNodo = poligono.primerNodo->next;
+    delete poligono.primerNodo;
     poligono.cantidadPuntosReales --;
 }
 
@@ -33,11 +55,11 @@ int getCantidadLados(const Poligono& poligono){
     return poligono.cantidadPuntosReales;
 }
 double getPerimetro(const Poligono& poligono){
-    double perimetro = 0;
+   double perimetro = 0;
     unsigned i; //Porque comparo con un unsigned
     for(i = 0; i < poligono.cantidadPuntosReales-1; i++)
-        perimetro += distanciaEntrePuntos(poligono.puntos[i], poligono.puntos[i+1]);
-    return perimetro += distanciaEntrePuntos(poligono.puntos[i], poligono.puntos[0]);
+        perimetro += distanciaEntrePuntos(getVertice(poligono, i), getVertice(poligono,i+1));
+    return perimetro += distanciaEntrePuntos(getVertice(poligono, i), getVertice(poligono,0));
 }
 
 double distanciaEntrePuntos(const Punto unPunto, const Punto otroPunto){
@@ -64,6 +86,7 @@ bool extraerColor(ifstream& in, Color& color){
  bool extraerPunto (ifstream& in, Punto& punto){
     in >> punto.x;
     in >> punto.y;
+    cout << "valor de la entrada " <<  static_cast<bool> (in) << endl;
     return static_cast<bool> (in);
  }
 
@@ -106,6 +129,10 @@ bool enviarPunto (ofstream& out,const Punto& punto){
 }
 
 bool enviarColor (ofstream& out,const Color& color){
+    cout << static_cast<short> (color.red) << " " 
+        << static_cast<short> (color.green) << " "
+        << static_cast<short> (color.blue) << " ";
+
     out << static_cast<short> (color.red) << " " 
         << static_cast<short> (color.green) << " "
         << static_cast<short> (color.blue) << " "; //Sin este casteo me muestra el valor del codigo ascii
@@ -113,15 +140,17 @@ bool enviarColor (ofstream& out,const Color& color){
 }
 
 bool enviarPoligono (ofstream& out,const Poligono& poligono){
+    
     enviarColor(out, poligono.colorPoligono);
     unsigned i;
-    for(i = 0; poligono.cantidadPuntosReales>i and enviarPunto(out, poligono.puntos.at(i)); i++);
+    for(i = 0; poligono.cantidadPuntosReales>i; i++)
+        enviarPunto(out, poligono.primerNodo->punto);
     return poligono.cantidadPuntosReales == i;
 }
 
-bool enviarPoligonos(ofstream& out, map <int, Poligono>& myPoligonos){
-    unsigned i;
-    for(i = 0; myPoligonos.size()>i and enviarPoligono(out, myPoligonos[i]); i++);
-    return myPoligonos.size() == i;
-}
+
+
+
+
+
 

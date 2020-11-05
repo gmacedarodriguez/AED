@@ -18,9 +18,15 @@ struct Punto{
     double y;
 };
 
+struct Nodo{
+    Punto punto;
+    Nodo * next;
+};
+
 //Supongo que puede tener como máximo 200 puntos
 struct Poligono{
     std::array<Punto,200> puntos;
+    Nodo * primerNodo = NULL;
     Color colorPoligono;
     unsigned cantidadPuntosReales = 0; //Cantidad de puntos a los que les fue asignado un valor.
 };
@@ -28,7 +34,7 @@ struct Poligono{
 
 
 void addVertice(Poligono& poligono, const Punto puntoAAgregar);
-Punto getVertice(const Poligono& poligono, const int numeroDeVertice);
+Punto getVertice(Poligono poligono, const int numeroDeVertice);
 void setVertice(Poligono& poligono, const Punto punto, const int posicionVertice);
 void removeVertice(Poligono& poligono, const int numeroDeVertice);
 int getCantidadLados(const Poligono& poligono);
@@ -38,10 +44,11 @@ bool isIgualPunto(const Punto unPunto, const Punto otroPunto);
 bool extraerColor(ifstream& in, Color& color);
 bool extraerComponenteColor(ifstream& in, uint8_t& componente);
 bool extraerSeparador(ifstream& in);
+bool extraerPoligono (ifstream& in, Poligono& poligono);
 bool extraerPoligonos (ifstream& in, map <int, Poligono>& myPoligonos);
+
 bool enviarPoligonos(ofstream& out, map <int, Poligono>& myPoligonos);
 bool enviarPoligono (ofstream& out,const Poligono& poligono);
 bool enviarColor (ofstream& out,const Color& color);
 bool enviarPunto (ofstream& out,const Punto& punto);
-
-void push (Poligono *poligono, int index, Poligono value, int *size, int *capacity);
+void push (Nodo** cabeza, const Punto puntoNuevo);
