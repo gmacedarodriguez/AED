@@ -26,7 +26,7 @@ struct Nodo{
 //Supongo que puede tener como máximo 200 puntos
 struct Poligono{
     std::array<Punto,200> puntos;
-    Nodo * primerNodo = NULL;
+    Nodo * primerNodo;
     Color colorPoligono;
     unsigned cantidadPuntosReales = 0; //Cantidad de puntos a los que les fue asignado un valor.
 };
@@ -48,7 +48,7 @@ bool extraerPoligono (ifstream& in, Poligono& poligono);
 bool extraerPoligonos (ifstream& in, map <int, Poligono>& myPoligonos);
 
 bool enviarPoligonos(ofstream& out, map <int, Poligono>& myPoligonos);
-bool enviarPoligono (ofstream& out,const Poligono& poligono);
+bool enviarPoligono (ofstream& out, Poligono& poligono);
 bool enviarColor (ofstream& out,const Color& color);
 bool enviarPunto (ofstream& out,const Punto& punto);
 void push (Nodo** cabeza, const Punto puntoNuevo);

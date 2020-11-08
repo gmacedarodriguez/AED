@@ -17,7 +17,9 @@ void push (Nodo** cabeza, const Punto puntoNuevo){
 
     newNodo->punto.x=puntoNuevo.x;
     newNodo->punto.y=puntoNuevo.y;
-
+    cout << "En el nodo del poligono se guarda el punto x :  " << newNodo->punto.x << endl;
+    cout << "En el nodo del poligono se guarda el punto y :  " << newNodo->punto.y << endl;
+    
     newNodo->next=*cabeza;
  
     *cabeza=newNodo;
@@ -25,7 +27,6 @@ void push (Nodo** cabeza, const Punto puntoNuevo){
 }
 
 void addVertice(Poligono& poligono, const Punto puntoAAgregar ){
-    cout<<"ta todo bien"<< endl;
     push(&poligono.primerNodo, puntoAAgregar);
 
     poligono.cantidadPuntosReales++;
@@ -74,6 +75,7 @@ bool extraerComponenteColor(ifstream& in, uint8_t& componente){
     int aux;
     in >> aux;
     componente = aux;
+    cout << "COMPONENTE COLOR :" << static_cast<int>(aux) << endl;
     return static_cast<bool> (in);
 }
 
@@ -86,7 +88,9 @@ bool extraerColor(ifstream& in, Color& color){
  bool extraerPunto (ifstream& in, Punto& punto){
     in >> punto.x;
     in >> punto.y;
-    cout << "valor de la entrada " <<  static_cast<bool> (in) << endl;
+    cout << "Extraigo coordenada x: " <<   punto.x << endl;
+    cout << "Extraigo coordenada y: " <<   punto.y << endl;
+    cout << "Valor de la entrada : " <<  static_cast<bool>(in) << endl;
     return static_cast<bool> (in);
  }
 
@@ -101,6 +105,7 @@ bool extraerPoligono (ifstream& in, Poligono& poligono){
     if(extraerColor(in, poligono.colorPoligono))
         for (int i = 0; extraerPunto(in, poligono.puntos.at(i)); i++)
             addVertice(poligono, poligono.puntos.at(i));
+   // cout << "Punto X primer poligono: " << poligono.punto
     return extraerSeparador(in);
  }
 
@@ -117,7 +122,11 @@ bool extraerPoligono (ifstream& in, Poligono& poligono){
 
 bool extraerPoligonos (ifstream& in, map <int, Poligono>& myPoligonos){
 
-    for(int i = 0; not in.eof() and extraerPoligono(in, myPoligonos[i]); i++);
+    for(int i = 0; not in.eof(); i++){
+        Poligono poligonoNuevo;
+        extraerPoligono(in, poligonoNuevo);
+        myPoligonos.insert(pair<int, Poligono>(i, poligonoNuevo));
+    }
     return in.eof();
 }
 
@@ -125,6 +134,7 @@ bool extraerPoligonos (ifstream& in, map <int, Poligono>& myPoligonos){
 
 bool enviarPunto (ofstream& out,const Punto& punto){
     out << punto.x << " " << punto.y << " ";
+
     return static_cast<bool> (out);
 }
 
@@ -139,12 +149,12 @@ bool enviarColor (ofstream& out,const Color& color){
     return static_cast<bool> (out);
 }
 
-bool enviarPoligono (ofstream& out,const Poligono& poligono){
+bool enviarPoligono (ofstream& out, Poligono& poligono){
     
     enviarColor(out, poligono.colorPoligono);
     unsigned i;
-    for(i = 0; poligono.cantidadPuntosReales>i; i++)
-        enviarPunto(out, poligono.primerNodo->punto);
+    for(i = 0; poligono.cantidadPuntosReales>i and enviarPunto(out, poligono.primerNodo->punto); i++)
+        poligono.primerNodo = poligono.primerNodo->next;
     return poligono.cantidadPuntosReales == i;
 }
 
