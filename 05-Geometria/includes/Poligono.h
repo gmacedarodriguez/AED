@@ -25,7 +25,6 @@ struct Nodo{
 
 //Supongo que puede tener como máximo 200 puntos
 struct Poligono{
-    std::array<Punto,200> puntos;
     Nodo * primerNodo;
     Color colorPoligono;
     unsigned cantidadPuntosReales = 0; //Cantidad de puntos a los que les fue asignado un valor.
