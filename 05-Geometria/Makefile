@@ -6,18 +6,27 @@
 CC = g++
 CFLAGS  = -g -Wall -I./includes -Wconversion -std=c++17
 
-default: Poligono
+default: Main
 
-Poligono: Poligono.o PoligonoTest.o
-	$(CC) $(CFLAGS) -o Poligono Poligono.o PoligonoTest.o
+Main: PoligonoCont.o Punto.o Color.o Main.o	#Cambiar PoligonoCont o PoligonoLink aca tambien
+	$(CC) $(CFLAGS) -o Main PoligonoCont.o Punto.o Color.o Main.o
+
+PoligonoCont.o: PoligonoCont.cpp 	
+	$(CC) $(CFLAGS) -c PoligonoCont.cpp
+
+#PoligonoLink.o: PoligonoLink.cpp 	
+#	$(CC) $(CFLAGS) -c PoligonoLink.cpp
+
+Punto.o:  Punto.cpp 
+	$(CC) $(CFLAGS) -c Punto.cpp
 
 
-Poligono.o:  Poligono.cpp 
-	$(CC) $(CFLAGS) -c Poligono.cpp
+Color.o:  Color.cpp 
+	$(CC) $(CFLAGS) -c Color.cpp
 
 
-PoligonoTest.o:  PoligonoTest.cpp 
-	$(CC) $(CFLAGS) -c PoligonoTest.cpp
+Main.o:  Main.cpp 
+	$(CC) $(CFLAGS) -c Main.cpp
 
 clean: 
-	$(RM) Poligono *.o *~
+	$(RM) Main *.o *~
